@@ -5,3 +5,4 @@
 - Created basic server setup
 - Implemented User model with password hashing
 - Implemented JWT-based authentication for signup and login
+- Implemented recipe creation (POST /recipes) with token authentication
