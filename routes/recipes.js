@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const recipesCtrl = require('../controllers/recipes');
-const verifyToken = require('../config/verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 
 router.get('/', recipesCtrl.getAll);
 router.get('/:id', recipesCtrl.getOne);
