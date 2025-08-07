@@ -1,7 +1,9 @@
 const Recipe = require('../models/recipe');
 
 module.exports = {
-    create
+    create,
+    getAll,
+    getOne
 };
 
 async function create(req, res) {
@@ -10,5 +12,37 @@ async function create(req, res) {
         res.status(201).json(recipe);
     } catch (err) {
         res.status(400).json(err);
+    }
+}
+
+async function getAll(req, res) {
+    try {
+        const { title, tag, ingredient } = req.query;
+        const query = {};
+        if (title) {
+            query.title = { $regex: title, $options: 'i' };
+        }
+        if (tag) {
+            query.tags = tag;
+        }
+        if (ingredient) {
+            query['ingredients.name'] = ingredient;
+        }
+        const recipes = await Recipe.find(query);
+        res.json(recipes);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+async function getOne(req, res) {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (recipe == null) {
+            return res.status(404).json({ message: 'Cannot find recipe' });
+        }
+        res.json(recipe);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
     }
 }
