@@ -7,5 +7,6 @@ router.get('/', recipesCtrl.getAll);
 router.get('/:id', recipesCtrl.getOne);
 router.post('/', verifyToken, recipesCtrl.create);
 router.patch('/:id', verifyToken, recipesCtrl.update);
+router.delete('/:id', verifyToken, recipesCtrl.delete);
 
 module.exports = router;
