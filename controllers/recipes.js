@@ -5,8 +5,54 @@ module.exports = {
     getAll,
     getOne,
     update,
-    delete: deleteOne
+    delete: deleteOne,
+    addInstruction,
+    updateInstruction,
+    deleteInstruction
 };
+
+async function addInstruction(req, res) {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (recipe.ownerId.toString() !== req.user._id) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+        recipe.instructions.push(req.body);
+        await recipe.save();
+        res.status(201).json(recipe);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
+
+async function updateInstruction(req, res) {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (recipe.ownerId.toString() !== req.user._id) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+        const instruction = recipe.instructions.id(req.params.instructionId);
+        instruction.set(req.body);
+        await recipe.save();
+        res.json(recipe);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
+
+async function deleteInstruction(req, res) {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (recipe.ownerId.toString() !== req.user._id) {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+        recipe.instructions.id(req.params.instructionId).remove();
+        await recipe.save();
+        res.json({ message: 'Deleted Instruction' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
 
 async function create(req, res) {
     try {
