@@ -1,17 +1,20 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const morgan = require("morgan");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect(process.env.DATABASE_URL);
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
-app.use(morgan("dev"));
+app.use(require("morgan")("dev"));
 app.use(express.json());
 
 app.use("/api/users", require("./routes/users"));
