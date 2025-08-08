@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.JWT_SECRET;
-console.log("loadiing users");
+
 module.exports = {
   signup,
   login,
