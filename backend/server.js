@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const app = express();
-const PORT = process.env.PORT || 3000;
+
 const cors = require("cors");
 mongoose.connect(process.env.MONGO_URL);
 
@@ -18,6 +18,7 @@ app.use(express.json());
 app.use("/api/users", require("./routes/users"));
 app.use("/api/recipes", require("./routes/recipes"));
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(process.env.PORT || 3000, "0.0.0.0")
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
