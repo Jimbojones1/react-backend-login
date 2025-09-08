@@ -56,7 +56,7 @@ async function deleteInstruction(req, res) {
 
 async function create(req, res) {
   try {
-    const recipe = await Recipe.create({ ...req.body, ownerId: req.user._id });
+    const recipe = await Recipe.create({ ...req.body, ownerId: req.user._id, author: req.user.email });
     res.status(201).json(recipe);
   } catch (err) {
     res.status(400).json(err);
