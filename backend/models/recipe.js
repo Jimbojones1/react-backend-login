@@ -18,7 +18,6 @@ const recipeSchema = new mongoose.Schema(
     ingredients: [ingredientSchema],
     instructions: [instructionSchema],
     tags: [String],
-    author: { type: String, required: true },
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
